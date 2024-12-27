@@ -1,122 +1,122 @@
-//SKLAD in VRSTA
+// STACK and QUEUE
 
 #include <iostream>
 using namespace std;
 
 void menu() {
-    cout << "Sklad - izbira:" << endl;
-    cout << "1. Dodaj na sklad" << endl;
-    cout << "2. Beri s sklada" << endl;
-    cout << "3. Izpisi sklad" << endl;
+    cout << "Stack - choices:" << endl;
+    cout << "1) Add to stack" << endl;
+    cout << "2) Read from stack" << endl;
+    cout << "3) Print stack" << endl;
     cout << endl;
-    cout << "Krozna vrsta - izbira:" << endl;
-    cout << "4. Vpisi v vrsto" << endl;
-    cout << "5. Beri iz vrste" << endl;
-    cout << "6. Izpisi vrsto" << endl;
+    cout << "Circular queue - choices:" << endl;
+    cout << "4) Insert to queue" << endl;
+    cout << "5) Read from queue" << endl;
+    cout << "6) Print queue" << endl;
     cout << endl;
-    cout << "7. Konec" << endl;
+    cout << "7) End" << endl;
     cout << endl;
-    cout << "Izbira: ";
-
+    cout << "Choice: ";
 }
 
-//FUNKCIJE ZA SKLAD
-void push(int* sklad, int& vrh, int max) {
+//FUNCTIONS FOR STACK
+void push(int* stack, int& top, int max) {
     int i;
-    cout << "Vpisi stevilo za dodajanje na sklad: ";
-    cin >> i;                                                       //poljubno stevilo, ki ga vnese uporabnik
+    cout << "Enter the number to be added to the stack: ";
+    cin >> i;                                                       // random number, entered by user
 
-    if (vrh == max) {                                               //èe je indeks VRH enak velikosti sklada, je sklad poln 
-        cout << "NAPAKA: Sklad je poln!" << endl;
+    if (top == max) {                                               // if the index "top" is equal to the stack size, the stack is full 
+        cout << "ERROR: Stack is full!" << endl;
         cout << endl;
     }
     else {
-        sklad[vrh] = i;                                             //na indeks VRH vstavimo število in poveèamo VRH za 1
-        cout << "Na sklad je vstavljeno stevilo: " << i << endl;
+        stack[top] = i;                                             // put the number at the index "top" and increase the "top" by 1
+        cout << "The following number was added to stack: " << i << endl;
         cout << endl;
-        vrh++;
+        top++;
     }
 }
 
-void pop(int* sklad, int& vrh) {
-    if (vrh == 0) {                                                 //èe je indeks VRH enak 0 pomeni, da je skad prazen...
-        cout << "NAPAKA: Sklad je prazen!" << endl;
+void pop(int* stack, int& top) {
+    if (top == 0) {                                                 // if the index "top" is equal to 0, it means that the stack is empty
+        cout << "ERROR: Stack is empty!" << endl;
         cout << endl;
     }
     else {
-        vrh--;                                                      //...drugaèe izpišemo zaden element v skladu in zmanšamo VRH za 1
-        cout << "Zadnji element na skladu: " << sklad[vrh] << endl;
+        top--;                                                      //... otherwise, we print the last element in the stack and decrement the "top" by 1
+        cout << "Last element in stack: " << stack[top] << endl;
         cout << endl;
     }
 }
 
-void izpisi(int* sklad, int vrh) {
-    cout << "Vsebina sklada: ";                                     //izpšemo vse na skladu med indeksoma 0 in VRH
-    for (int i = 0; i < vrh; i++) {
-        cout << sklad[i] << " ";
+void print_stack(int* stack, int top) {
+    cout << "Stack content: ";                                     // print everything on stack between indeces 0 and "top"
+    for (int i = 0; i < top; i++) {
+        cout << stack[i] << " ";
     }
     cout << endl;
     cout << endl;
 }
 
 
-//FUNKCIJE ZA VRSTO
-void vpisi(int* vrsta, int& rep, int glava, int maxi) {
+// FUNCTIONS FOR QUEUE
+void insert_in_queue(int* queue, int& tail, int head, int maxi) {
     int i;
-    cout << "Vpisi stevilo v vrsto: ";
+    cout << "Enter the number in the queue: ";
     cin >> i;
 
-    int rep_zacasen = rep + 1;
+    // if "tail" is equal to the queue length, set it to zero, otherwise increment it by 1
+    int tail_temporary = tail + 1;
 
-    if (rep_zacasen > maxi) {
-        rep_zacasen = 0;
+    if (tail_temporary > maxi) {
+        tail_temporary = 0;
     }
 
-    if (rep_zacasen == glava) {
-        cout << "NAPAKA: Vrsta je polna" << endl;
+    if (tail_temporary == head) {
+        cout << "ERROR: Queue is full!" << endl;
         cout << endl;
     }
     else {
-        vrsta[rep] = i;                                             //izpišem element v vrsti na indeksu REP
-        cout << "V vrsto je vstavljeno stevilo: " << i << endl;
+        queue[tail] = i;                                             
+        cout << "The following number was inserted into the queue: " << i << endl;
         cout << endl;
-        rep = rep_zacasen;                                          //èe je REP enak dolžini vrste, ga nastavimo na niè, drugaèe ga poveèamo za 1 
+        tail = tail_temporary;                                          
     }
 }
 
-void beri(int* vrsta, int rep, int& glava, int maxi) {
-    if (rep == glava) {                                            //èe sta GLAVA in REP na istem indeksu, potem je vrsta prazna
-        cout << "NAPAKA: Vrsta je prazna" << endl;
+void read_queue(int* queue, int tail, int& head, int maxi) {
+    if (tail == head) {                                            // if "head" and "tail" are at the same index, then the queue is empty
+        cout << "ERROR: Queue is empty!" << endl;
         cout << endl;
     }
-    else if (glava == maxi) {                                      //èe je GLAVA (torej indeks prvega elementa) enak dolžini vrste, izpišemo element na tem indeksu in GLAVO nastavimo na indeks 0
-        cout << "Prvi element v vrsti: " << vrsta[glava] << endl;
+    else if (head == maxi) {                                      // if the "head" (i.e. the index of the first element) is equal to the length of the queue, we print the element at this index and set the "head" to index 0
+        cout << "First element in the queue: " << queue[head] << endl;
         cout << endl;
-        glava = 0;
+        head = 0;
     }
-    else {                                                          //... drugaèe izpišemo element na indeksu GLAVA in jo poveèamo za 1
-        cout << "Prvi element v vrsti: " << vrsta[glava] << endl;
+    else {                                                        //... otherwise, we print the element at the "head" index and increase it by 1
+        cout << "First element in the queue: " << queue[head] << endl;
         cout << endl;
-        glava++;
+        head++;
     }
 }
 
-void izpis(int* vrsta, int rep, int& glava, int maxi) {
-    if (glava == rep) {
-        cout << "NAPAKA: Vrsta je prazna" << endl;
+void print_queue(int* queue, int tail, int& head, int maxi) {
+    if (head == tail) {
+        cout << "ERROR: Queue is empty!" << endl;
     }
     else {
-        cout << "Vsebina vrste: ";
-        if (glava < rep) {                                            //èe je GLAVA na manjšem indeksu kot REP, izpišemo vrsto od glave do repa ...
-            for (int i = glava; i < rep; i++)
-                cout << vrsta[i] << " ";
+        cout << "Queue content: ";
+        if (head < tail) {                                            // if "head" is at a smaller index than "tail", we print the row from head to tail...
+            for (int i = head; i < tail; i++)
+                cout << queue[i] << " ";
             cout << endl;
         }
-        else {                                                      // ... drugaèe izpišemo od GLAVE do MAXI, in nato še od 0 do REPA
-            for (int i = glava; i <= maxi; i++)
-                cout << vrsta[i] << " ";
-            for (int j = 0; j < rep; j++)
-                cout << vrsta[j] << " ";
+        else {                                                      // ... otherwise we print from "head" to "maxi", and then from 0 to "tail"
+            for (int i = head; i <= maxi; i++)
+                cout << queue[i] << " ";
+            for (int j = 0; j < tail; j++)
+                cout << queue[j] << " ";
             cout << endl;
         }
         cout << endl;
@@ -126,54 +126,55 @@ void izpis(int* vrsta, int rep, int& glava, int maxi) {
 
 
 int main() {
-    int izbira;
+    int choice;
     bool running = true;
 
-    int max = 0;
-    int maxi = 0;
+    int stack_size = 0;
+    int queue_size = 0;
 
-    cout << "Vpisi velikost sklada: ";
-    cin >> max;
+    cout << "Enter stack size: ";
+    cin >> stack_size;
 
-    cout << "Vpisi dolzino vrste: ";
-    cin >> maxi;
+    cout << "Enter queue size: ";
+    cin >> queue_size;
 
     system("cls");
 
-    int* sklad = new int[max];
-    int vrh = 0;
+    int* stack = new int[stack_size];
+    int top = 0;
 
-    int* vrsta = new int[maxi];
-    int glava = 0;
-    int rep = 0;
+    int* queue = new int[queue_size];
+    int head = 0;
+    int tail = 0;
 
     do {
         menu();
-        cin >> izbira;
-        switch (izbira) {
+        cin >> choice;
+        system("cls");
+        switch (choice) {
         case 1:
-            push(sklad, vrh, max);
+            push(stack, top, stack_size);
             break;
         case 2:
-            pop(sklad, vrh);
+            pop(stack, top);
             break;
         case 3:
-            izpisi(sklad, vrh);
+            print_stack(stack, top);
             break;
         case 4:
-            vpisi(vrsta, rep, glava, maxi);
+            insert_in_queue(queue, tail, head, queue_size);
             break;
         case 5:
-            beri(vrsta, rep, glava, maxi);
+            read_queue(queue, tail, head, queue_size);
             break;
         case 6:
-            izpis(vrsta, rep, glava, maxi);
+            print_queue(queue, tail, head, queue_size);
             break;
         case 7:
             running = false;
             break;
         default:
-            cout << "Narobe izbira!" << endl;
+            cout << "Wrong choice!" << endl;
             break;
         }
     } while (running);
